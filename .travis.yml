@@ -3,5 +3,4 @@ osx_image: xcode9.3
 
 script:
   - bundle install
-  - bundle exec fastlane test os_version:'11.3'
-  - bundle exec fastlane test os_version:'10.3'
+  - bundle exec fastlane test 
