@@ -13,23 +13,20 @@ public class VersionUpdater {
     let endPointURL: URL
     let customAlertTitle: String
     let customAlertBody: String
-    let completionBlock: (_ alertController: VersionUpdaterAlertController) -> Void
 
     var versionInfo: VersionInfo!
     var infoDictionary = Bundle.main.infoDictionary!
 
-    public init(endPointURL: URL, completion: @escaping (_ alertController: VersionUpdaterAlertController) -> Void) {
+    public init(endPointURL: URL) {
         self.endPointURL = endPointURL
         self.customAlertTitle = ""
         self.customAlertBody = ""
-        self.completionBlock = completion
     }
 
-    public init(endPointURL: URL, customAlertTitle: String, customAlertBody: String, completion: @escaping (_ alertController: VersionUpdaterAlertController) -> Void) {
+    public init(endPointURL: URL, customAlertTitle: String, customAlertBody: String) {
         self.endPointURL = endPointURL
         self.customAlertTitle = customAlertTitle
         self.customAlertBody = customAlertBody
-        self.completionBlock = completion
     }
 
     public func executeVersionCheck() {
@@ -58,7 +55,9 @@ extension VersionUpdater {
         if !isVersionUpNeeded {
             return
         }
-        showUpdateAnnounce()
+        DispatchQueue.main.async { 
+            self.showUpdateAnnounce()
+        }
     }
 
     func showUpdateAnnounce() {
@@ -67,34 +66,31 @@ extension VersionUpdater {
             message: alertBody,
             preferredStyle: .alert
         )
+
         alertController.addAction(UIAlertAction(
             title: updateButtonText,
             style: UIAlertActionStyle.default,
             handler: { action in
-                guard UIApplication.shared.canOpenURL(self.versionInfo.updateURL) else {
-                    return
-                }
+                guard UIApplication.shared.canOpenURL(self.versionInfo.updateURL) else { return }
+                guard let updateURL = self.versionInfo.updateURL else { return }
 
-                guard let updateURL = self.versionInfo.updateURL else {
-                    return
-                }
-
-                UIApplication.shared.open(
-                    updateURL,
-                    options: [:],
-                    completionHandler: nil
-                )
+                UIApplication.shared.open(updateURL, options: [:], completionHandler: { _ in
+                    WindowHandler.shared.dismiss()
+                })
         }))
 
         if versionInfo.type == .optional {
-            alertController.addAction(UIAlertAction(
-                title: cancelButtonText,
-                style: UIAlertActionStyle.cancel,
-                handler: nil)
+            alertController.addAction(
+                UIAlertAction(
+                    title: cancelButtonText,
+                    style: UIAlertActionStyle.cancel,
+                    handler: { _ in
+                        WindowHandler.shared.dismiss()
+                })
             )
         }
 
-        completionBlock(alertController)
+        WindowHandler.shared.present(viewController: alertController)
     }
 
     var isVersionUpNeeded: Bool {
@@ -104,7 +100,7 @@ extension VersionUpdater {
         let requiredVersion = SemanticVersion(string: requiredVersionString)
 
         let comparision = requiredVersion.compare(currentVersion)
-        return comparision == .orderedDescending || comparision == .orderedSame
+        return comparision == .orderedDescending
     }
 
     public var alertTitle: String {

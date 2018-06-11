@@ -23,7 +23,7 @@ class VersionUpdaterTests: XCTestCase {
     
     func testCompareVersion() {
         var updater = updaterForVersion("2.0.0", requiredVersion: "2.0.0")
-        XCTAssertEqual(updater.isVersionUpNeeded, true)
+        XCTAssertEqual(updater.isVersionUpNeeded, false)
 
         updater = updaterForVersion("2.0.0", requiredVersion: "2.0.1")
         XCTAssertEqual(updater.isVersionUpNeeded, true)
@@ -49,8 +49,7 @@ class VersionUpdaterTests: XCTestCase {
         let versionInfo = VersionInfo(requiredVersion: requiredVersion, type: .force, updateURL: URL(string: "http://update.com"))
 
         let updater = VersionUpdater(
-            endPointURL: URL(string: "https://foo.com")!,
-            completion: { _ in }
+            endPointURL: URL(string: "https://foo.com")!
         )
         updater.infoDictionary = infoDictionary
         updater.versionInfo = versionInfo
