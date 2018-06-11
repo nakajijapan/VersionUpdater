@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		DCA178E720CE884A006AEC33 /* WindowManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCA178E620CE884A006AEC33 /* WindowManager.swift */; };
 		DCF3F74020CA620200E17D44 /* VersionUpdater.bundle in Resources */ = {isa = PBXBuildFile; fileRef = DCF3F73F20CA620200E17D44 /* VersionUpdater.bundle */; };
 		DCF3F74820CA690D00E17D44 /* VersionUpdaterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCF3F74720CA690D00E17D44 /* VersionUpdaterTests.swift */; };
 		DCF3F74A20CA690D00E17D44 /* VersionUpdater.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DCF4B4C020CA35CA00186B2D /* VersionUpdater.framework */; };
@@ -28,6 +29,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		DCA178E620CE884A006AEC33 /* WindowManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WindowManager.swift; sourceTree = "<group>"; };
 		DCF3F73F20CA620200E17D44 /* VersionUpdater.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = VersionUpdater.bundle; sourceTree = "<group>"; };
 		DCF3F74520CA690C00E17D44 /* VersionUpdaterTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = VersionUpdaterTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		DCF3F74720CA690D00E17D44 /* VersionUpdaterTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VersionUpdaterTests.swift; sourceTree = "<group>"; };
@@ -114,6 +116,7 @@
 				DCF3F76F20CA933D00E17D44 /* VersionUpdaterAlertController.swift */,
 				DCF3F76D20CA932600E17D44 /* SemanticVersion.swift */,
 				DCF3F76B20CA931000E17D44 /* VersionInfo.swift */,
+				DCA178E620CE884A006AEC33 /* WindowManager.swift */,
 			);
 			path = Classes;
 			sourceTree = "<group>";
@@ -247,6 +250,7 @@
 				DCF3F77020CA933D00E17D44 /* VersionUpdaterAlertController.swift in Sources */,
 				DCF3F76C20CA931000E17D44 /* VersionInfo.swift in Sources */,
 				DCF4B4F220CA375F00186B2D /* VersionUpdater.swift in Sources */,
+				DCA178E720CE884A006AEC33 /* WindowManager.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

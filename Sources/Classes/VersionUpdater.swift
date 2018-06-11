@@ -8,37 +8,6 @@
 import Foundation
 import UIKit
 
-class WindowManager {
-    static let shared = WindowManager()
-    var window: UIWindow?
-    var mainWindow: UIWindow!
-
-    func present(viewController: UIViewController) {
-        if self.window != nil {
-            return
-        }
-
-        mainWindow = UIApplication.shared.windows[0]
-
-        let aWindow = UIWindow(frame: UIScreen.main.bounds)
-        aWindow.backgroundColor = UIColor.clear
-        aWindow.rootViewController = UIViewController()
-        self.window = aWindow
-
-        window?.windowLevel = UIWindowLevelAlert
-        window?.makeKeyAndVisible()
-        window?.rootViewController?.present(viewController, animated: true, completion: nil)
-    }
-
-    func dismiss() {
-        window?.isHidden = true
-        window?.removeFromSuperview()
-        window = nil
-        mainWindow.makeKeyAndVisible()
-        mainWindow = nil
-    }
-}
-
 public class VersionUpdater {
 
     let endPointURL: URL
