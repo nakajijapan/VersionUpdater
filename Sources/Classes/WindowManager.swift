@@ -8,8 +8,8 @@
 
 import UIKit
 
-class WindowManager {
-    static let shared = WindowManager()
+class WindowHandler {
+    static let shared = WindowHandler()
     var window: UIWindow?
     var mainWindow: UIWindow!
 

@@ -75,7 +75,7 @@ extension VersionUpdater {
                 guard let updateURL = self.versionInfo.updateURL else { return }
 
                 UIApplication.shared.open(updateURL, options: [:], completionHandler: { _ in
-                    WindowManager.shared.dismiss()
+                    WindowHandler.shared.dismiss()
                 })
         }))
 
@@ -85,12 +85,12 @@ extension VersionUpdater {
                     title: cancelButtonText,
                     style: UIAlertActionStyle.cancel,
                     handler: { _ in
-                        WindowManager.shared.dismiss()
+                        WindowHandler.shared.dismiss()
                 })
             )
         }
 
-        WindowManager.shared.present(viewController: alertController)
+        WindowHandler.shared.present(viewController: alertController)
     }
 
     var isVersionUpNeeded: Bool {
@@ -100,7 +100,7 @@ extension VersionUpdater {
         let requiredVersion = SemanticVersion(string: requiredVersionString)
 
         let comparision = requiredVersion.compare(currentVersion)
-        return comparision == .orderedDescending || comparision == .orderedSame
+        return comparision == .orderedDescending
     }
 
     public var alertTitle: String {
