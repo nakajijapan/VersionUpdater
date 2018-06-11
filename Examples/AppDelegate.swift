@@ -21,18 +21,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 
     func applicationDidBecomeActive(_ application: UIApplication) {
-
         let versionUpdater = VersionUpdater(
-            endPointURL: URL(string: "https://foo.com/ios.json")!,
-            completion: { alertController in
-                guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return }
-
-                if !(appDelegate.window?.rootViewController?.presentedViewController is VersionUpdaterAlertController) {
-                    appDelegate.window?.rootViewController?.present(
-                        alertController, animated: true, completion: nil
-                    )
-                }
-        })
+            endPointURL: URL(string: "https://foo.com/ios.json")!
+        )
         versionUpdater.executeVersionCheck()
     }
 
