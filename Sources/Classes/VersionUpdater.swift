@@ -8,9 +8,38 @@
 import Foundation
 import UIKit
 
-public class VersionUpdater {
+class WindowManager {
+    static let shared = WindowManager()
+    var window: UIWindow?
+    var mainWindow: UIWindow!
 
-    var rootWindow: UIWindow!
+    func present(viewController: UIViewController) {
+        if self.window != nil {
+            return
+        }
+
+        mainWindow = UIApplication.shared.windows[0]
+
+        let aWindow = UIWindow(frame: UIScreen.main.bounds)
+        aWindow.backgroundColor = UIColor.clear
+        aWindow.rootViewController = UIViewController()
+        self.window = aWindow
+
+        window?.windowLevel = UIWindowLevelAlert
+        window?.makeKeyAndVisible()
+        window?.rootViewController?.present(viewController, animated: true, completion: nil)
+    }
+
+    func dismiss() {
+        window?.isHidden = true
+        window?.removeFromSuperview()
+        window = nil
+        mainWindow.makeKeyAndVisible()
+        mainWindow = nil
+    }
+}
+
+public class VersionUpdater {
 
     let endPointURL: URL
     let customAlertTitle: String
@@ -63,16 +92,12 @@ extension VersionUpdater {
     }
 
     func showUpdateAnnounce() {
-        let window = UIWindow(frame: UIScreen.main.bounds)
-        window.backgroundColor = UIColor.clear
-        window.rootViewController = UIViewController()
-        rootWindow = UIApplication.shared.windows[0]
-
         let alertController = VersionUpdaterAlertController(
             title: alertTitle,
             message: alertBody,
             preferredStyle: .alert
         )
+
         alertController.addAction(UIAlertAction(
             title: updateButtonText,
             style: UIAlertActionStyle.default,
@@ -80,10 +105,8 @@ extension VersionUpdater {
                 guard UIApplication.shared.canOpenURL(self.versionInfo.updateURL) else { return }
                 guard let updateURL = self.versionInfo.updateURL else { return }
 
-                UIApplication.shared.open(updateURL, options: [:], completionHandler: { [weak self] _ in
-                    window.isHidden = true
-                    window.removeFromSuperview()
-                    self?.close(with: window)
+                UIApplication.shared.open(updateURL, options: [:], completionHandler: { _ in
+                    WindowManager.shared.dismiss()
                 })
         }))
 
@@ -92,22 +115,13 @@ extension VersionUpdater {
                 UIAlertAction(
                     title: cancelButtonText,
                     style: UIAlertActionStyle.cancel,
-                    handler: { [weak self] action in
-                        self?.close(with: window)
-
+                    handler: { _ in
+                        WindowManager.shared.dismiss()
                 })
             )
         }
 
-        window.windowLevel = UIWindowLevelAlert
-        window.makeKeyAndVisible()
-        window.rootViewController?.present(alertController, animated: true, completion: nil)
-    }
-
-    private func close(with window: UIWindow) {
-        window.isHidden = true
-        window.removeFromSuperview()
-        rootWindow.makeKeyAndVisible()
+        WindowManager.shared.present(viewController: alertController)
     }
 
     var isVersionUpNeeded: Bool {
