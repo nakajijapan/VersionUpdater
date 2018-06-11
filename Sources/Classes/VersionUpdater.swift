@@ -10,26 +10,25 @@ import UIKit
 
 public class VersionUpdater {
 
+    var rootWindow: UIWindow!
+
     let endPointURL: URL
     let customAlertTitle: String
     let customAlertBody: String
-    let completionBlock: (_ alertController: VersionUpdaterAlertController) -> Void
 
     var versionInfo: VersionInfo!
     var infoDictionary = Bundle.main.infoDictionary!
 
-    public init(endPointURL: URL, completion: @escaping (_ alertController: VersionUpdaterAlertController) -> Void) {
+    public init(endPointURL: URL) {
         self.endPointURL = endPointURL
         self.customAlertTitle = ""
         self.customAlertBody = ""
-        self.completionBlock = completion
     }
 
-    public init(endPointURL: URL, customAlertTitle: String, customAlertBody: String, completion: @escaping (_ alertController: VersionUpdaterAlertController) -> Void) {
+    public init(endPointURL: URL, customAlertTitle: String, customAlertBody: String) {
         self.endPointURL = endPointURL
         self.customAlertTitle = customAlertTitle
         self.customAlertBody = customAlertBody
-        self.completionBlock = completion
     }
 
     public func executeVersionCheck() {
@@ -58,10 +57,17 @@ extension VersionUpdater {
         if !isVersionUpNeeded {
             return
         }
-        showUpdateAnnounce()
+        DispatchQueue.main.async { 
+            self.showUpdateAnnounce()
+        }
     }
 
     func showUpdateAnnounce() {
+        let window = UIWindow(frame: UIScreen.main.bounds)
+        window.backgroundColor = UIColor.clear
+        window.rootViewController = UIViewController()
+        rootWindow = UIApplication.shared.windows[0]
+
         let alertController = VersionUpdaterAlertController(
             title: alertTitle,
             message: alertBody,
@@ -71,30 +77,37 @@ extension VersionUpdater {
             title: updateButtonText,
             style: UIAlertActionStyle.default,
             handler: { action in
-                guard UIApplication.shared.canOpenURL(self.versionInfo.updateURL) else {
-                    return
-                }
+                guard UIApplication.shared.canOpenURL(self.versionInfo.updateURL) else { return }
+                guard let updateURL = self.versionInfo.updateURL else { return }
 
-                guard let updateURL = self.versionInfo.updateURL else {
-                    return
-                }
-
-                UIApplication.shared.open(
-                    updateURL,
-                    options: [:],
-                    completionHandler: nil
-                )
+                UIApplication.shared.open(updateURL, options: [:], completionHandler: { [weak self] _ in
+                    window.isHidden = true
+                    window.removeFromSuperview()
+                    self?.close(with: window)
+                })
         }))
 
         if versionInfo.type == .optional {
-            alertController.addAction(UIAlertAction(
-                title: cancelButtonText,
-                style: UIAlertActionStyle.cancel,
-                handler: nil)
+            alertController.addAction(
+                UIAlertAction(
+                    title: cancelButtonText,
+                    style: UIAlertActionStyle.cancel,
+                    handler: { [weak self] action in
+                        self?.close(with: window)
+
+                })
             )
         }
 
-        completionBlock(alertController)
+        window.windowLevel = UIWindowLevelAlert
+        window.makeKeyAndVisible()
+        window.rootViewController?.present(alertController, animated: true, completion: nil)
+    }
+
+    private func close(with window: UIWindow) {
+        window.isHidden = true
+        window.removeFromSuperview()
+        rootWindow.makeKeyAndVisible()
     }
 
     var isVersionUpNeeded: Bool {
