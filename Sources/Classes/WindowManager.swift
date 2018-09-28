@@ -25,7 +25,7 @@ class WindowHandler {
         aWindow.rootViewController = UIViewController()
         self.window = aWindow
 
-        window?.windowLevel = UIWindowLevelAlert
+        window?.windowLevel = UIWindow.Level.alert
         window?.makeKeyAndVisible()
         window?.rootViewController?.present(viewController, animated: true, completion: nil)
     }

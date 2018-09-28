@@ -69,7 +69,7 @@ extension VersionUpdater {
 
         alertController.addAction(UIAlertAction(
             title: updateButtonText,
-            style: UIAlertActionStyle.default,
+            style: .default,
             handler: { action in
                 guard UIApplication.shared.canOpenURL(self.versionInfo.updateURL) else { return }
                 guard let updateURL = self.versionInfo.updateURL else { return }
@@ -83,7 +83,7 @@ extension VersionUpdater {
             alertController.addAction(
                 UIAlertAction(
                     title: cancelButtonText,
-                    style: UIAlertActionStyle.cancel,
+                    style: .cancel,
                     handler: { _ in
                         WindowHandler.shared.dismiss()
                 })
