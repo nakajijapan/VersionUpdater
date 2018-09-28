@@ -12,7 +12,7 @@ Inspired: https://github.com/kazu0620/SRGVersionUpdater (Objective-C)
 ## Requirements
 
 - iOS 10.0+
-- Xcode 9+
+- Xcode 10+
 - Swift 4+
 
 ## CocoaPods
