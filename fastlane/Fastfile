@@ -5,7 +5,7 @@ lane :test do |options|
   xctest(
     workspace: "VersionUpdater.xcworkspace",
     scheme: "VersionUpdater",
-    destination: "platform=iOS Simulator,name=iPhone X,OS=11.3",
+    destination: "platform=iOS Simulator,name=iPhone X,OS=11.4",
   )
 end
 
