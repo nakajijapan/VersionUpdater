@@ -6,5 +6,9 @@ let package = Package(
     name: "VersionUpdater",
     platforms: [.iOS(.v11)],
     products: [.library(name: "VersionUpdater", targets: ["VersionUpdater"])],
-    targets: [.target(name: "VersionUpdater", path: "Sources")]
+    targets: [
+        .target(name: "VersionUpdater", path: "Sources", resources: [
+            .process("VersionUpdater.bundle")
+        ])
+    ]
 )
