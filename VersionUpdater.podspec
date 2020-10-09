@@ -9,6 +9,6 @@ Pod::Spec.new do |s|
   s.platform     = :ios, '10.0'
   s.source_files = 'Sources/Classes/**/*'
   s.resources    = 'VersionUpdater.bundle'
-  s.swift_version = '5.2'
+  s.swift_version = '5.3'
   s.requires_arc = true
 end
