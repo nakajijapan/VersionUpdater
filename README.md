@@ -15,6 +15,11 @@ Inspired: https://github.com/kazu0620/SRGVersionUpdater (Objective-C)
 - Xcode 10+
 - Swift 5.2+
 
+#### Swift Package Manager
+
+Add via Xcode in the [usual way](https://developer.apple.com/documentation/xcode/adding_package_dependencies_to_your_app)
+
+
 ## CocoaPods
 
 VersionUpdater is available through [CocoaPods](http://cocoapods.org). To install
