@@ -122,20 +122,11 @@ extension VersionUpdater {
     }
 
     var cancelButtonText: String {
-        return localizedStringWithFormat(key: "VersionUpdater.alert.calcelButton")
+        return localizedStringWithFormat(key: "VersionUpdater.alert.cancelButton")
     }
 
     func localizedStringWithFormat(key: String) -> String {
-
-        let bundlePath = Bundle.main.path(
-            forResource: "VersionUpdater",
-            ofType: "bundle",
-            inDirectory: "Frameworks/VersionUpdater.framework"
-            )!
-
-        let bundle = Bundle(path: bundlePath)!
-        let string = NSLocalizedString(key, tableName: "VersionUpdater", bundle: bundle, comment: "")
-        return string
+        NSLocalizedString(key, bundle: Bundle.module, comment: "")
     }
 
 }

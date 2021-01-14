@@ -4,11 +4,8 @@ import PackageDescription
 
 let package = Package(
     name: "VersionUpdater",
+    defaultLocalization: "en",
     platforms: [.iOS(.v11)],
     products: [.library(name: "VersionUpdater", targets: ["VersionUpdater"])],
-    targets: [
-        .target(name: "VersionUpdater", path: "Sources", resources: [
-            .process("VersionUpdater.bundle")
-        ])
-    ]
+    targets: [.target(name: "VersionUpdater", path: "Sources", resources: [.process("Resources")])]
 )

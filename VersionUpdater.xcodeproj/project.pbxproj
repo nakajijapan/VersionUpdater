@@ -7,8 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		03191AE725B04683000230FF /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 03191AE525B04683000230FF /* Localizable.strings */; };
+		03191AEC25B0468A000230FF /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 03191AEA25B0468A000230FF /* Localizable.strings */; };
 		DCA178E720CE884A006AEC33 /* WindowManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCA178E620CE884A006AEC33 /* WindowManager.swift */; };
-		DCF3F74020CA620200E17D44 /* VersionUpdater.bundle in Resources */ = {isa = PBXBuildFile; fileRef = DCF3F73F20CA620200E17D44 /* VersionUpdater.bundle */; };
 		DCF3F74820CA690D00E17D44 /* VersionUpdaterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCF3F74720CA690D00E17D44 /* VersionUpdaterTests.swift */; };
 		DCF3F74A20CA690D00E17D44 /* VersionUpdater.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DCF4B4C020CA35CA00186B2D /* VersionUpdater.framework */; };
 		DCF3F76C20CA931000E17D44 /* VersionInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCF3F76B20CA931000E17D44 /* VersionInfo.swift */; };
@@ -29,8 +30,9 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		03191AE625B04683000230FF /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = Localizable.strings; sourceTree = "<group>"; };
+		03191AEB25B0468A000230FF /* ja */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ja; path = Localizable.strings; sourceTree = "<group>"; };
 		DCA178E620CE884A006AEC33 /* WindowManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WindowManager.swift; sourceTree = "<group>"; };
-		DCF3F73F20CA620200E17D44 /* VersionUpdater.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = VersionUpdater.bundle; sourceTree = "<group>"; };
 		DCF3F74520CA690C00E17D44 /* VersionUpdaterTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = VersionUpdaterTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		DCF3F74720CA690D00E17D44 /* VersionUpdaterTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VersionUpdaterTests.swift; sourceTree = "<group>"; };
 		DCF3F74920CA690D00E17D44 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -62,6 +64,31 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		033A24C025AF01B200929590 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				033A24CF25AF028000929590 /* en.lproj */,
+				033A24D025AF028000929590 /* ja.lproj */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		033A24CF25AF028000929590 /* en.lproj */ = {
+			isa = PBXGroup;
+			children = (
+				03191AE525B04683000230FF /* Localizable.strings */,
+			);
+			path = en.lproj;
+			sourceTree = "<group>";
+		};
+		033A24D025AF028000929590 /* ja.lproj */ = {
+			isa = PBXGroup;
+			children = (
+				03191AEA25B0468A000230FF /* Localizable.strings */,
+			);
+			path = ja.lproj;
+			sourceTree = "<group>";
+		};
 		DCF3F74620CA690D00E17D44 /* VersionUpdaterTests */ = {
 			isa = PBXGroup;
 			children = (
@@ -74,7 +101,6 @@
 		DCF4B4B620CA35CA00186B2D = {
 			isa = PBXGroup;
 			children = (
-				DCF3F73F20CA620200E17D44 /* VersionUpdater.bundle */,
 				DCF4B4EB20CA375F00186B2D /* Sources */,
 				DCF4B4C220CA35CA00186B2D /* VersionUpdater */,
 				DCF3F74620CA690D00E17D44 /* VersionUpdaterTests */,
@@ -103,6 +129,7 @@
 		DCF4B4EB20CA375F00186B2D /* Sources */ = {
 			isa = PBXGroup;
 			children = (
+				033A24C025AF01B200929590 /* Resources */,
 				DCF4B4EC20CA375F00186B2D /* Classes */,
 				DCF4B4EF20CA375F00186B2D /* Assets */,
 			);
@@ -230,7 +257,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				DCF3F74020CA620200E17D44 /* VersionUpdater.bundle in Resources */,
+				03191AE725B04683000230FF /* Localizable.strings in Resources */,
+				03191AEC25B0468A000230FF /* Localizable.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -266,6 +294,25 @@
 			targetProxy = DCF3F74B20CA690D00E17D44 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		03191AE525B04683000230FF /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				03191AE625B04683000230FF /* en */,
+			);
+			name = Localizable.strings;
+			sourceTree = "<group>";
+		};
+		03191AEA25B0468A000230FF /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				03191AEB25B0468A000230FF /* ja */,
+			);
+			name = Localizable.strings;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
 		DCF3F74E20CA690D00E17D44 /* Debug */ = {
@@ -364,7 +411,7 @@
 				SDKROOT = iphoneos;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-				SWIFT_VERSION = 4.2;
+				SWIFT_VERSION = 5.0;
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
 			};
@@ -423,7 +470,7 @@
 				SDKROOT = iphoneos;
 				SWIFT_COMPILATION_MODE = wholemodule;
 				SWIFT_OPTIMIZATION_LEVEL = "-O";
-				SWIFT_VERSION = 4.2;
+				SWIFT_VERSION = 5.0;
 				VALIDATE_PRODUCT = YES;
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
