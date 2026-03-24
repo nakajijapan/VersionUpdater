@@ -4,9 +4,9 @@ import PackageDescription
 
 let package = Package(
     name: "VersionUpdater",
-    defaultLocalization: "en",
     platforms: [
-        .iOS(.v15)
+        .iOS(.v15),
+        .macOS(.v12)
     ],
     products: [
         .library(
@@ -17,10 +17,7 @@ let package = Package(
     targets: [
         .target(
             name: "VersionUpdater",
-            path: "Sources/Classes",
-            resources: [
-                .process("Resources")
-            ]
+            path: "Sources/Classes"
         ),
         .testTarget(
             name: "VersionUpdaterTests",

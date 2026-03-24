@@ -41,7 +41,6 @@ final class VersionUpdaterTests: XCTestCase {
 
     // MARK: - Update Needed
 
-    @MainActor
     func testIsUpdateNeeded() {
         let updater = VersionUpdater(endPointURL: URL(string: "https://example.com")!)
 
