@@ -1,19 +1,11 @@
-//
-//  VersionInfo.swift
-//  VersionUpdater
-//
-//  Created by Daichi Nakajima on 2018/06/08.
-//  Copyright © 2018 Daichi Nakajima. All rights reserved.
-//
-
 import Foundation
 
-struct VersionInfo: Codable {
-    var requiredVersion = ""
-    var type: UpdateType = .optional
-    let updateURL: URL!
+public struct VersionInfo: Codable, Sendable {
+    public let requiredVersion: String
+    public let type: UpdateType
+    public let updateURL: URL?
 
-    enum UpdateType: String, Codable {
+    public enum UpdateType: String, Codable, Sendable {
         case force
         case optional
     }
@@ -22,5 +14,11 @@ struct VersionInfo: Codable {
         case requiredVersion = "required_version"
         case type
         case updateURL = "update_url"
+    }
+
+    public init(requiredVersion: String, type: UpdateType, updateURL: URL?) {
+        self.requiredVersion = requiredVersion
+        self.type = type
+        self.updateURL = updateURL
     }
 }

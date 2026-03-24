@@ -1,44 +1,34 @@
-//
-//  SemanticVersion.swift
-//  VersionUpdater
-//
-//  Created by Daichi Nakajima on 2018/06/08.
-//  Copyright © 2018 Daichi Nakajima. All rights reserved.
-//
-
 import Foundation
 
-struct SemanticVersion {
-    let major: Int
-    let minor: Int
-    let patch: Int
+public struct SemanticVersion: Sendable, Equatable {
+    public let major: Int
+    public let minor: Int
+    public let patch: Int
 
-    init(string: String) {
-        let numbers = string.components(separatedBy: ".")
-        self.major = Int(numbers.first ?? "") ?? 0
-        self.minor = Int(numbers[1]) ?? 0
-        self.patch = Int(numbers.last ?? "") ?? 0
+    public init(major: Int, minor: Int, patch: Int) {
+        self.major = major
+        self.minor = minor
+        self.patch = patch
     }
 
-    func compare(_ version: SemanticVersion) -> ComparisonResult {
-        if major > version.major {
-            return .orderedDescending
-        } else if major < version.major {
-            return .orderedAscending
-        }
+    public init(string: String) {
+        let components = string.components(separatedBy: ".")
+        self.major = components.indices.contains(0) ? (Int(components[0]) ?? 0) : 0
+        self.minor = components.indices.contains(1) ? (Int(components[1]) ?? 0) : 0
+        self.patch = components.indices.contains(2) ? (Int(components[2]) ?? 0) : 0
+    }
+}
 
-        if minor > version.minor {
-            return .orderedDescending
-        } else if minor < version.minor {
-            return .orderedAscending
-        }
+extension SemanticVersion: Comparable {
+    public static func < (lhs: SemanticVersion, rhs: SemanticVersion) -> Bool {
+        if lhs.major != rhs.major { return lhs.major < rhs.major }
+        if lhs.minor != rhs.minor { return lhs.minor < rhs.minor }
+        return lhs.patch < rhs.patch
+    }
+}
 
-        if patch > version.patch {
-            return .orderedDescending
-        } else if patch < version.patch {
-            return .orderedAscending
-        }
-
-        return .orderedSame
+extension SemanticVersion: CustomStringConvertible {
+    public var description: String {
+        "\(major).\(minor).\(patch)"
     }
 }

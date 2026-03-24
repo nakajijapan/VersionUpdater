@@ -1,21 +1,27 @@
-//
-//  Shari.swift
-//  Pods
-//
-//  Created by nakajijapan on 2015/12/24.
-//
-//
 import Foundation
 import UIKit
 
-public class VersionUpdater {
+public enum VersionUpdaterError: Error, Sendable {
+    case networkError(Error)
+    case invalidResponse
+    case decodingError(Error)
+    case noUpdateURL
+}
 
-    let endPointURL: URL
-    let customAlertTitle: String
-    let customAlertBody: String
+@MainActor
+public final class VersionUpdater {
 
-    var versionInfo: VersionInfo!
-    var infoDictionary = Bundle.main.infoDictionary!
+    public let endPointURL: URL
+    public var customAlertTitle: String
+    public var customAlertBody: String
+
+    private(set) var versionInfo: VersionInfo?
+
+    var currentAppVersion: String {
+        Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "0.0.0"
+    }
+
+    // MARK: - Initialization
 
     public init(endPointURL: URL) {
         self.endPointURL = endPointURL
@@ -29,114 +35,84 @@ public class VersionUpdater {
         self.customAlertBody = customAlertBody
     }
 
-    public func executeVersionCheck() {
-        let config = URLSessionConfiguration.default
-        let session = URLSession(configuration: config)
-        let request = URLRequest(url: endPointURL)
-        let task = session.dataTask(with: request) { (data, response, error) in
-            guard let data = data else { return }
+    // MARK: - Public API
 
-            do {
-                let decodedData = try JSONDecoder().decode(VersionInfo.self, from: data)
-                self.versionInfo = decodedData
-                self.showUpdateAnnounceIfNeeded()
-             } catch {
-                print("Error: \(error.localizedDescription)")
-            }
+    /// Fetches version info from the endpoint and shows an update alert if needed.
+    public func executeVersionCheck() async throws {
+        let info = try await fetchVersionInfo()
+        self.versionInfo = info
 
+        if isUpdateNeeded(currentVersion: currentAppVersion, requiredVersion: info.requiredVersion) {
+            showUpdateAlert(for: info)
         }
-        task.resume()
     }
-}
 
-extension VersionUpdater {
+    /// Fetches version info without presenting UI.
+    public func fetchVersionInfo() async throws -> VersionInfo {
+        let (data, response) = try await URLSession.shared.data(from: endPointURL)
 
-    func showUpdateAnnounceIfNeeded() {
-        if !isVersionUpNeeded {
+        guard let httpResponse = response as? HTTPURLResponse,
+              (200...299).contains(httpResponse.statusCode) else {
+            throw VersionUpdaterError.invalidResponse
+        }
+
+        do {
+            return try JSONDecoder().decode(VersionInfo.self, from: data)
+        } catch {
+            throw VersionUpdaterError.decodingError(error)
+        }
+    }
+
+    // MARK: - Version Comparison
+
+    public func isUpdateNeeded(currentVersion: String, requiredVersion: String) -> Bool {
+        let current = SemanticVersion(string: currentVersion)
+        let required = SemanticVersion(string: requiredVersion)
+        return required > current
+    }
+
+    // MARK: - Alert Presentation
+
+    private func showUpdateAlert(for info: VersionInfo) {
+        let title = customAlertTitle.isEmpty
+            ? String(localized: "alert.title", bundle: .module)
+            : customAlertTitle
+        let body = customAlertBody.isEmpty
+            ? String(localized: "alert.body", bundle: .module)
+            : customAlertBody
+
+        let alert = UIAlertController(title: title, message: body, preferredStyle: .alert)
+
+        let downloadTitle = String(localized: "alert.updateButton", bundle: .module)
+        alert.addAction(UIAlertAction(title: downloadTitle, style: .default) { [weak self] _ in
+            self?.openUpdateURL(info.updateURL)
+        })
+
+        if info.type == .optional {
+            let cancelTitle = String(localized: "alert.cancelButton", bundle: .module)
+            alert.addAction(UIAlertAction(title: cancelTitle, style: .cancel))
+        }
+
+        presentAlert(alert)
+    }
+
+    private func openUpdateURL(_ url: URL?) {
+        guard let url, UIApplication.shared.canOpenURL(url) else { return }
+        UIApplication.shared.open(url)
+    }
+
+    private func presentAlert(_ alert: UIAlertController) {
+        guard let windowScene = UIApplication.shared.connectedScenes
+            .compactMap({ $0 as? UIWindowScene })
+            .first(where: { $0.activationState == .foregroundActive }),
+              let rootViewController = windowScene.windows.first(where: \.isKeyWindow)?.rootViewController else {
             return
         }
-        DispatchQueue.main.async { 
-            self.showUpdateAnnounce()
+
+        var topController = rootViewController
+        while let presented = topController.presentedViewController {
+            topController = presented
         }
+        topController.present(alert, animated: true)
     }
-
-    func showUpdateAnnounce() {
-        let alertController = VersionUpdaterAlertController(
-            title: alertTitle,
-            message: alertBody,
-            preferredStyle: .alert
-        )
-
-        alertController.addAction(UIAlertAction(
-            title: updateButtonText,
-            style: .default,
-            handler: { action in
-                guard UIApplication.shared.canOpenURL(self.versionInfo.updateURL) else { return }
-                guard let updateURL = self.versionInfo.updateURL else { return }
-
-                UIApplication.shared.open(updateURL, options: [:], completionHandler: { _ in
-                    WindowHandler.shared.dismiss()
-                })
-        }))
-
-        if versionInfo.type == .optional {
-            alertController.addAction(
-                UIAlertAction(
-                    title: cancelButtonText,
-                    style: .cancel,
-                    handler: { _ in
-                        WindowHandler.shared.dismiss()
-                })
-            )
-        }
-
-        WindowHandler.shared.present(viewController: alertController)
-    }
-
-    var isVersionUpNeeded: Bool {
-        let currentVersionString = (infoDictionary["CFBundleShortVersionString"] as? String) ?? ""
-        let requiredVersionString = versionInfo.requiredVersion
-        let currentVersion = SemanticVersion(string: currentVersionString)
-        let requiredVersion = SemanticVersion(string: requiredVersionString)
-
-        let comparision = requiredVersion.compare(currentVersion)
-        return comparision == .orderedDescending
-    }
-
-    public var alertTitle: String {
-        if customAlertTitle.isEmpty {
-            return localizedStringWithFormat(key: "VersionUpdater.alert.title")
-        }
-        return customAlertTitle
-    }
-
-    var alertBody: String {
-        if customAlertBody.isEmpty {
-            return localizedStringWithFormat(key: "VersionUpdater.alert.body")
-        }
-        return customAlertBody
-    }
-
-    var updateButtonText: String {
-        return localizedStringWithFormat(key: "VersionUpdater.alert.updateButton")
-    }
-
-    var cancelButtonText: String {
-        return localizedStringWithFormat(key: "VersionUpdater.alert.calcelButton")
-    }
-
-    func localizedStringWithFormat(key: String) -> String {
-
-        let bundlePath = Bundle.main.path(
-            forResource: "VersionUpdater",
-            ofType: "bundle",
-            inDirectory: "Frameworks/VersionUpdater.framework"
-            )!
-
-        let bundle = Bundle(path: bundlePath)!
-        let string = NSLocalizedString(key, tableName: "VersionUpdater", bundle: bundle, comment: "")
-        return string
-    }
-
 }
-

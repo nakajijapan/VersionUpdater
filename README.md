@@ -1,55 +1,93 @@
 # VersionUpdater
 
-[![Carthage](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat)](https://github.com/Carthage/Carthage)
-[![Version](https://img.shields.io/cocoapods/v/VersionUpdater.svg?style=flat)](http://cocoapods.org/pods/VersionUpdater)
 [![License](https://img.shields.io/cocoapods/l/VersionUpdater.svg?style=flat)](http://cocoapods.org/pods/VersionUpdater)
 [![Platform](https://img.shields.io/cocoapods/p/VersionUpdater.svg?style=flat)](http://cocoapods.org/pods/VersionUpdater)
 
-VersionUpdater inform users about new app version release, and can force users update the application to the version.
+Inform users about new app version releases and optionally force updates.
 
-Inspired: https://github.com/kazu0620/SRGVersionUpdater (Objective-C)
+Inspired by: https://github.com/kazu0620/SRGVersionUpdater (Objective-C)
 
 ## Requirements
 
-- iOS 10.0+
-- Xcode 10+
-- Swift 4+
+- iOS 15.0+
+- Xcode 15+
+- Swift 5.9+
 
-## CocoaPods
+## Installation
 
-VersionUpdater is available through [CocoaPods](http://cocoapods.org). To install
-it, simply add the following line to your Podfile:
+### Swift Package Manager (Recommended)
 
+Add to your `Package.swift`:
+
+```swift
+dependencies: [
+    .package(url: "https://github.com/nakajijapan/VersionUpdater.git", from: "2.0.0")
+]
+```
+
+Or add it via Xcode: File > Add Package Dependencies and enter the repository URL.
+
+### CocoaPods
 
 ```ruby
-pod "VersionUpdater"
+pod "VersionUpdater", "~> 2.0"
 ```
 
-Then, run the following code:
+## Usage
 
-```ruby
-$ pod install
+### JSON Endpoint
+
+Provide a JSON endpoint that returns version information:
+
+```json
+{
+    "required_version": "2.0.0",
+    "type": "force",
+    "update_url": "https://apps.apple.com/app/id123456789"
+}
 ```
 
-## Carthage
+- `type`: `"force"` (only download button) or `"optional"` (download + cancel buttons)
 
-[Carthage](https://github.com/Carthage/Carthage) is a decentralized dependency manager for Cocoa applications.
+### Basic Usage
 
-``` bash
-$ brew update
-$ brew install carthage
+```swift
+import VersionUpdater
+
+let updater = VersionUpdater(
+    endPointURL: URL(string: "https://example.com/ios.json")!
+)
+
+Task {
+    try await updater.executeVersionCheck()
+}
 ```
 
-To integrate VersionUpdater into your Xcode project using Carthage, specify it in your `Cartfile`:
+### Custom Alert Text
 
-``` ogdl
-github "nakajijapan/VersionUpdater"
+```swift
+let updater = VersionUpdater(
+    endPointURL: URL(string: "https://example.com/ios.json")!,
+    customAlertTitle: "Update Available",
+    customAlertBody: "A new version is available."
+)
 ```
 
-Then, run the following command to build the VersionUpdater framework:
+### Fetch Version Info Without UI
 
-``` bash
-$ carthage update
+```swift
+let info = try await updater.fetchVersionInfo()
+print(info.requiredVersion) // "2.0.0"
+print(info.type)            // .force or .optional
+```
+
+### Version Comparison
+
+```swift
+let needsUpdate = updater.isUpdateNeeded(
+    currentVersion: "1.0.0",
+    requiredVersion: "2.0.0"
+)
 ```
 
 ## Author
