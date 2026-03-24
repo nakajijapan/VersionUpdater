@@ -7,13 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		DCA178E720CE884A006AEC33 /* WindowManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCA178E620CE884A006AEC33 /* WindowManager.swift */; };
 		DCF3F74020CA620200E17D44 /* VersionUpdater.bundle in Resources */ = {isa = PBXBuildFile; fileRef = DCF3F73F20CA620200E17D44 /* VersionUpdater.bundle */; };
 		DCF3F74820CA690D00E17D44 /* VersionUpdaterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCF3F74720CA690D00E17D44 /* VersionUpdaterTests.swift */; };
 		DCF3F74A20CA690D00E17D44 /* VersionUpdater.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DCF4B4C020CA35CA00186B2D /* VersionUpdater.framework */; };
 		DCF3F76C20CA931000E17D44 /* VersionInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCF3F76B20CA931000E17D44 /* VersionInfo.swift */; };
 		DCF3F76E20CA932600E17D44 /* SemanticVersion.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCF3F76D20CA932600E17D44 /* SemanticVersion.swift */; };
-		DCF3F77020CA933D00E17D44 /* VersionUpdaterAlertController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCF3F76F20CA933D00E17D44 /* VersionUpdaterAlertController.swift */; };
 		DCF4B4C520CA35CA00186B2D /* VersionUpdater.h in Headers */ = {isa = PBXBuildFile; fileRef = DCF4B4C320CA35CA00186B2D /* VersionUpdater.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		DCF4B4F220CA375F00186B2D /* VersionUpdater.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCF4B4EE20CA375F00186B2D /* VersionUpdater.swift */; };
 /* End PBXBuildFile section */
@@ -29,14 +27,12 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		DCA178E620CE884A006AEC33 /* WindowManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WindowManager.swift; sourceTree = "<group>"; };
 		DCF3F73F20CA620200E17D44 /* VersionUpdater.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = VersionUpdater.bundle; sourceTree = "<group>"; };
 		DCF3F74520CA690C00E17D44 /* VersionUpdaterTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = VersionUpdaterTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		DCF3F74720CA690D00E17D44 /* VersionUpdaterTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VersionUpdaterTests.swift; sourceTree = "<group>"; };
 		DCF3F74920CA690D00E17D44 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		DCF3F76B20CA931000E17D44 /* VersionInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VersionInfo.swift; sourceTree = "<group>"; };
 		DCF3F76D20CA932600E17D44 /* SemanticVersion.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SemanticVersion.swift; sourceTree = "<group>"; };
-		DCF3F76F20CA933D00E17D44 /* VersionUpdaterAlertController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VersionUpdaterAlertController.swift; sourceTree = "<group>"; };
 		DCF4B4C020CA35CA00186B2D /* VersionUpdater.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = VersionUpdater.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		DCF4B4C320CA35CA00186B2D /* VersionUpdater.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = VersionUpdater.h; sourceTree = "<group>"; };
 		DCF4B4C420CA35CA00186B2D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -113,10 +109,8 @@
 			isa = PBXGroup;
 			children = (
 				DCF4B4EE20CA375F00186B2D /* VersionUpdater.swift */,
-				DCF3F76F20CA933D00E17D44 /* VersionUpdaterAlertController.swift */,
 				DCF3F76D20CA932600E17D44 /* SemanticVersion.swift */,
 				DCF3F76B20CA931000E17D44 /* VersionInfo.swift */,
-				DCA178E620CE884A006AEC33 /* WindowManager.swift */,
 			);
 			path = Classes;
 			sourceTree = "<group>";
@@ -248,10 +242,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				DCF3F76E20CA932600E17D44 /* SemanticVersion.swift in Sources */,
-				DCF3F77020CA933D00E17D44 /* VersionUpdaterAlertController.swift in Sources */,
 				DCF3F76C20CA931000E17D44 /* VersionInfo.swift in Sources */,
 				DCF4B4F220CA375F00186B2D /* VersionUpdater.swift in Sources */,
-				DCA178E720CE884A006AEC33 /* WindowManager.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
