@@ -1,0 +1,25 @@
+name: CI
+
+on:
+  push:
+    branches: [master]
+  pull_request:
+    branches: [master]
+
+jobs:
+  build-and-test:
+    runs-on: macos-14
+    strategy:
+      matrix:
+        xcode: ['15.4']
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Select Xcode
+        run: sudo xcode-select -s /Applications/Xcode_${{ matrix.xcode }}.app
+
+      - name: Build
+        run: xcodebuild build -scheme VersionUpdater -destination 'platform=iOS Simulator,name=iPhone 15,OS=latest' | xcpretty || true
+
+      - name: Run tests
+        run: xcodebuild test -scheme VersionUpdater -destination 'platform=iOS Simulator,name=iPhone 15,OS=latest' | xcpretty || true

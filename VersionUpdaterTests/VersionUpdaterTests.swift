@@ -1,59 +1,93 @@
-//
-//  VersionUpdaterTests.swift
-//  VersionUpdaterTests
-//
-//  Created by Daichi Nakajima on 2018/06/08.
-//  Copyright © 2018 Daichi Nakajima. All rights reserved.
-//
-
 import XCTest
 @testable import VersionUpdater
 
-class VersionUpdaterTests: XCTestCase {
-    
-    override func setUp() {
-        super.setUp()
-        // Put setup code here. This method is called before the invocation of each test method in the class.
-    }
-    
-    override func tearDown() {
-        // Put teardown code here. This method is called after the invocation of each test method in the class.
-        super.tearDown()
-    }
-    
-    func testCompareVersion() {
-        var updater = updaterForVersion("2.0.0", requiredVersion: "2.0.0")
-        XCTAssertEqual(updater.isVersionUpNeeded, false)
+final class VersionUpdaterTests: XCTestCase {
 
-        updater = updaterForVersion("2.0.0", requiredVersion: "2.0.1")
-        XCTAssertEqual(updater.isVersionUpNeeded, true)
+    // MARK: - SemanticVersion Parsing
 
-        updater = updaterForVersion("2.0.0", requiredVersion: "1.9.9")
-        XCTAssertEqual(updater.isVersionUpNeeded, false)
-
-        updater = updaterForVersion("2.0.1", requiredVersion: "2.0.2")
-        XCTAssertEqual(updater.isVersionUpNeeded, true)
-
-        updater = updaterForVersion("2.0.1", requiredVersion: "2.0.11")
-        XCTAssertEqual(updater.isVersionUpNeeded, true)
-
-        updater = updaterForVersion("2.1.0", requiredVersion: "2.10.0")
-        XCTAssertEqual(updater.isVersionUpNeeded, true)
-
-        updater = updaterForVersion("1.0.0", requiredVersion: "10.0.0")
-        XCTAssertEqual(updater.isVersionUpNeeded, true)
+    func testSemanticVersionParsing() {
+        let version = SemanticVersion(string: "2.1.3")
+        XCTAssertEqual(version.major, 2)
+        XCTAssertEqual(version.minor, 1)
+        XCTAssertEqual(version.patch, 3)
     }
 
-    private func updaterForVersion(_ currentVersion: String, requiredVersion: String) -> VersionUpdater {
-        let infoDictionary: [String: Any] = ["CFBundleShortVersionString": currentVersion]
-        let versionInfo = VersionInfo(requiredVersion: requiredVersion, type: .force, updateURL: URL(string: "http://update.com"))
+    func testSemanticVersionParsingPartial() {
+        let twoComponents = SemanticVersion(string: "1.2")
+        XCTAssertEqual(twoComponents, SemanticVersion(major: 1, minor: 2, patch: 0))
 
-        let updater = VersionUpdater(
-            endPointURL: URL(string: "https://foo.com")!
-        )
-        updater.infoDictionary = infoDictionary
-        updater.versionInfo = versionInfo
-        return updater
+        let oneComponent = SemanticVersion(string: "5")
+        XCTAssertEqual(oneComponent, SemanticVersion(major: 5, minor: 0, patch: 0))
+
+        let empty = SemanticVersion(string: "")
+        XCTAssertEqual(empty, SemanticVersion(major: 0, minor: 0, patch: 0))
     }
-    
+
+    // MARK: - SemanticVersion Comparison
+
+    func testSemanticVersionComparison() {
+        XCTAssertTrue(SemanticVersion(string: "1.0.0") < SemanticVersion(string: "2.0.0"))
+        XCTAssertTrue(SemanticVersion(string: "2.0.0") < SemanticVersion(string: "2.1.0"))
+        XCTAssertTrue(SemanticVersion(string: "2.1.0") < SemanticVersion(string: "2.1.1"))
+        XCTAssertFalse(SemanticVersion(string: "2.0.0") < SemanticVersion(string: "1.9.9"))
+        XCTAssertEqual(SemanticVersion(string: "1.0.0"), SemanticVersion(string: "1.0.0"))
+    }
+
+    func testSemanticVersionMultiDigitComparison() {
+        XCTAssertTrue(SemanticVersion(string: "2.0.2") < SemanticVersion(string: "2.0.11"))
+        XCTAssertTrue(SemanticVersion(string: "2.1.0") < SemanticVersion(string: "2.10.0"))
+        XCTAssertTrue(SemanticVersion(string: "1.0.0") < SemanticVersion(string: "10.0.0"))
+    }
+
+    // MARK: - Update Needed
+
+    @MainActor
+    func testIsUpdateNeeded() {
+        let updater = VersionUpdater(endPointURL: URL(string: "https://example.com")!)
+
+        XCTAssertFalse(updater.isUpdateNeeded(currentVersion: "2.0.0", requiredVersion: "2.0.0"))
+        XCTAssertTrue(updater.isUpdateNeeded(currentVersion: "2.0.0", requiredVersion: "2.0.1"))
+        XCTAssertFalse(updater.isUpdateNeeded(currentVersion: "2.0.0", requiredVersion: "1.9.9"))
+        XCTAssertTrue(updater.isUpdateNeeded(currentVersion: "2.0.1", requiredVersion: "2.0.2"))
+        XCTAssertTrue(updater.isUpdateNeeded(currentVersion: "2.0.1", requiredVersion: "2.0.11"))
+        XCTAssertTrue(updater.isUpdateNeeded(currentVersion: "2.1.0", requiredVersion: "2.10.0"))
+        XCTAssertTrue(updater.isUpdateNeeded(currentVersion: "1.0.0", requiredVersion: "10.0.0"))
+    }
+
+    // MARK: - VersionInfo Decoding
+
+    func testVersionInfoDecoding() throws {
+        let json = """
+        {
+            "required_version": "2.0.0",
+            "type": "force",
+            "update_url": "https://apps.apple.com/app/id123"
+        }
+        """.data(using: .utf8)!
+
+        let info = try JSONDecoder().decode(VersionInfo.self, from: json)
+        XCTAssertEqual(info.requiredVersion, "2.0.0")
+        XCTAssertEqual(info.type, .force)
+        XCTAssertEqual(info.updateURL?.absoluteString, "https://apps.apple.com/app/id123")
+    }
+
+    func testVersionInfoDecodingOptionalType() throws {
+        let json = """
+        {
+            "required_version": "1.5.0",
+            "type": "optional",
+            "update_url": "https://apps.apple.com/app/id456"
+        }
+        """.data(using: .utf8)!
+
+        let info = try JSONDecoder().decode(VersionInfo.self, from: json)
+        XCTAssertEqual(info.type, .optional)
+    }
+
+    // MARK: - SemanticVersion Description
+
+    func testSemanticVersionDescription() {
+        let version = SemanticVersion(string: "3.2.1")
+        XCTAssertEqual(version.description, "3.2.1")
+    }
 }
