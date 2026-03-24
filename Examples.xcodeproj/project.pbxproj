@@ -10,11 +10,8 @@
 		DCF3F76020CA8D3100E17D44 /* VersionUpdater.podspec in Resources */ = {isa = PBXBuildFile; fileRef = DCF3F75F20CA8D3100E17D44 /* VersionUpdater.podspec */; };
 		DCF3F76820CA92CB00E17D44 /* VersionUpdater.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DCF3F76720CA92CB00E17D44 /* VersionUpdater.framework */; };
 		DCF3F76920CA92CB00E17D44 /* VersionUpdater.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = DCF3F76720CA92CB00E17D44 /* VersionUpdater.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		DCF4B4D820CA363500186B2D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCF4B4D720CA363500186B2D /* AppDelegate.swift */; };
-		DCF4B4DA20CA363500186B2D /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCF4B4D920CA363500186B2D /* ViewController.swift */; };
-		DCF4B4DD20CA363500186B2D /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DCF4B4DB20CA363500186B2D /* Main.storyboard */; };
+		DCF4B4D820CA363500186B2D /* ExampleApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCF4B4D720CA363500186B2D /* ExampleApp.swift */; };
 		DCF4B4DF20CA363700186B2D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DCF4B4DE20CA363700186B2D /* Assets.xcassets */; };
-		DCF4B4E220CA363700186B2D /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DCF4B4E020CA363700186B2D /* LaunchScreen.storyboard */; };
 		DCF4B4EA20CA36C300186B2D /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = DCF4B4E920CA36C300186B2D /* README.md */; };
 /* End PBXBuildFile section */
 
@@ -33,17 +30,12 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		DCF3F75620CA870900E17D44 /* ja */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ja; path = ja.lproj/Main.strings; sourceTree = "<group>"; };
-		DCF3F75720CA870900E17D44 /* ja */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ja; path = ja.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
 		DCF3F75F20CA8D3100E17D44 /* VersionUpdater.podspec */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = VersionUpdater.podspec; sourceTree = "<group>"; };
 		DCF3F76220CA92A600E17D44 /* VersionUpdater.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = VersionUpdater.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		DCF3F76720CA92CB00E17D44 /* VersionUpdater.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = VersionUpdater.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		DCF4B4D420CA363500186B2D /* Examples.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Examples.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		DCF4B4D720CA363500186B2D /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		DCF4B4D920CA363500186B2D /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
-		DCF4B4DC20CA363500186B2D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		DCF4B4D720CA363500186B2D /* ExampleApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExampleApp.swift; sourceTree = "<group>"; };
 		DCF4B4DE20CA363700186B2D /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		DCF4B4E120CA363700186B2D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		DCF4B4E320CA363700186B2D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		DCF4B4E920CA36C300186B2D /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -91,11 +83,8 @@
 		DCF4B4D620CA363500186B2D /* Examples */ = {
 			isa = PBXGroup;
 			children = (
-				DCF4B4D720CA363500186B2D /* AppDelegate.swift */,
-				DCF4B4D920CA363500186B2D /* ViewController.swift */,
-				DCF4B4DB20CA363500186B2D /* Main.storyboard */,
+				DCF4B4D720CA363500186B2D /* ExampleApp.swift */,
 				DCF4B4DE20CA363700186B2D /* Assets.xcassets */,
-				DCF4B4E020CA363700186B2D /* LaunchScreen.storyboard */,
 				DCF4B4E320CA363700186B2D /* Info.plist */,
 			);
 			path = Examples;
@@ -160,10 +149,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				DCF4B4E220CA363700186B2D /* LaunchScreen.storyboard in Resources */,
 				DCF4B4DF20CA363700186B2D /* Assets.xcassets in Resources */,
 				DCF4B4EA20CA36C300186B2D /* README.md in Resources */,
-				DCF4B4DD20CA363500186B2D /* Main.storyboard in Resources */,
 				DCF3F76020CA8D3100E17D44 /* VersionUpdater.podspec in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -175,33 +162,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				DCF4B4DA20CA363500186B2D /* ViewController.swift in Sources */,
-				DCF4B4D820CA363500186B2D /* AppDelegate.swift in Sources */,
+				DCF4B4D820CA363500186B2D /* ExampleApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
-/* Begin PBXVariantGroup section */
-		DCF4B4DB20CA363500186B2D /* Main.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				DCF4B4DC20CA363500186B2D /* Base */,
-				DCF3F75620CA870900E17D44 /* ja */,
-			);
-			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
-		DCF4B4E020CA363700186B2D /* LaunchScreen.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				DCF4B4E120CA363700186B2D /* Base */,
-				DCF3F75720CA870900E17D44 /* ja */,
-			);
-			name = LaunchScreen.storyboard;
-			sourceTree = "<group>";
-		};
-/* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
 		DCF4B4E420CA363700186B2D /* Debug */ = {
@@ -256,13 +222,13 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-				SWIFT_VERSION = 4.2;
+				SWIFT_VERSION = 5.0;
 			};
 			name = Debug;
 		};
@@ -312,12 +278,12 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
 				SWIFT_COMPILATION_MODE = wholemodule;
 				SWIFT_OPTIMIZATION_LEVEL = "-O";
-				SWIFT_VERSION = 4.2;
+				SWIFT_VERSION = 5.0;
 				VALIDATE_PRODUCT = YES;
 			};
 			name = Release;
@@ -335,7 +301,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = net.nakajijapan.Examples;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.2;
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -353,7 +319,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = net.nakajijapan.Examples;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.2;
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
