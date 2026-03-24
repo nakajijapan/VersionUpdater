@@ -11,6 +11,14 @@ public enum VersionUpdaterError: Error, Sendable {
 @MainActor
 public final class VersionUpdater {
 
+    private static var resourceBundle: Bundle = {
+        #if SWIFT_PACKAGE
+        return .module
+        #else
+        return Bundle(for: VersionUpdater.self)
+        #endif
+    }()
+
     public let endPointURL: URL
     public var customAlertTitle: String
     public var customAlertBody: String
@@ -75,21 +83,21 @@ public final class VersionUpdater {
 
     private func showUpdateAlert(for info: VersionInfo) {
         let title = customAlertTitle.isEmpty
-            ? String(localized: "alert.title", bundle: .module)
+            ? String(localized: "alert.title", bundle: Self.resourceBundle)
             : customAlertTitle
         let body = customAlertBody.isEmpty
-            ? String(localized: "alert.body", bundle: .module)
+            ? String(localized: "alert.body", bundle: Self.resourceBundle)
             : customAlertBody
 
         let alert = UIAlertController(title: title, message: body, preferredStyle: .alert)
 
-        let downloadTitle = String(localized: "alert.updateButton", bundle: .module)
+        let downloadTitle = String(localized: "alert.updateButton", bundle: Self.resourceBundle)
         alert.addAction(UIAlertAction(title: downloadTitle, style: .default) { [weak self] _ in
             self?.openUpdateURL(info.updateURL)
         })
 
         if info.type == .optional {
-            let cancelTitle = String(localized: "alert.cancelButton", bundle: .module)
+            let cancelTitle = String(localized: "alert.cancelButton", bundle: Self.resourceBundle)
             alert.addAction(UIAlertAction(title: cancelTitle, style: .cancel))
         }
 
