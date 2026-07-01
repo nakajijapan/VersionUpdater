@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name         = "VersionUpdater"
-  s.version      = "2.0.0"
+  s.version      = "3.0.0"
   s.summary      = "Inform users about new app version releases and optionally force updates."
   s.homepage     = "https://github.com/nakajijapan/VersionUpdater"
   s.license      = "MIT"
