@@ -9,9 +9,9 @@ Inspired by: https://github.com/kazu0620/SRGVersionUpdater (Objective-C)
 
 ## Requirements
 
-- iOS 15.0+
-- Xcode 15+
-- Swift 5.9+
+- iOS 18.0+
+- Xcode 16+
+- Swift 6.0+
 
 ## Installation
 

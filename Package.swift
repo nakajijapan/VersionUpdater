@@ -1,12 +1,12 @@
-// swift-tools-version: 5.9
+// swift-tools-version: 6.0
 
 import PackageDescription
 
 let package = Package(
     name: "VersionUpdater",
     platforms: [
-        .iOS(.v15),
-        .macOS(.v12)
+        .iOS(.v18),
+        .macOS(.v15)
     ],
     products: [
         .library(
@@ -24,5 +24,6 @@ let package = Package(
             dependencies: ["VersionUpdater"],
             path: "VersionUpdaterTests"
         )
-    ]
+    ],
+    swiftLanguageModes: [.v6]
 )
