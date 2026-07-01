@@ -21,8 +21,9 @@ jobs:
       - name: Swift Package Manager (build & test)
         run: swift build && swift test
 
-      - name: Build
-        run: xcodebuild build -project VersionUpdater.xcodeproj -scheme VersionUpdater -destination 'platform=iOS Simulator,name=iPhone 16,OS=latest'
-
-      - name: Run tests
-        run: xcodebuild test -project VersionUpdater.xcodeproj -scheme VersionUpdater -destination 'platform=iOS Simulator,name=iPhone 16,OS=latest'
+      # Compile the framework and test target for the iOS simulator SDK using the
+      # generic destination (always available — no concrete device to resolve, so
+      # this can't fail on runners that ship without pre-created simulators). Test
+      # execution itself is covered by the SPM step above (the tests are pure logic).
+      - name: Build for iOS (framework + tests)
+        run: xcodebuild build-for-testing -project VersionUpdater.xcodeproj -scheme VersionUpdater -destination 'generic/platform=iOS Simulator'
